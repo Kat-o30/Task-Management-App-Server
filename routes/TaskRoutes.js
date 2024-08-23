@@ -4,8 +4,14 @@ const router = express.Router();
 
 // Create a new task 
 router.post('/', async (req, res) => {
-    try { 
-        const task = new Task(req.body);
+    try {
+        const { title, description, dueDate, completed } = req.body;
+
+        if (!title || !description || !dueDate) {
+            return res.status(400).json({ message: "Title, description, and due date are required." });
+        }
+
+        const task = new Task({ title, description, dueDate, completed });
         await task.save();
         res.status(201).json({ message: "Task created successfully", task });
     } catch (error) {
@@ -13,6 +19,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: "Error creating task", error: error.message });
     }
 });
+
 
 // Get all tasks
 // router.get('/', async (req, res) => {

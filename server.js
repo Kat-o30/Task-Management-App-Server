@@ -13,7 +13,7 @@ app.use(express.json());
 
 const corsOptions = {
     origin: process.env.DOMAIN_URI, 
-    methods: 'GET,POST,PUT,DELETE',
+    methods: 'POST',
     allowedHeaders: 'Content-Type,Authorization',
 };
 
