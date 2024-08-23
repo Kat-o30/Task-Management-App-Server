@@ -3,16 +3,35 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// Load environment variables from .env file
+
 dotenv.config();
 
 const app = express();
 
-// Middleware
+
 app.use(express.json());                           
 
+// const corsOptions = {
+//     origin: process.env.FRONTEND_URL, 
+//     methods: 'POST',
+//     allowedHeaders: 'Content-Type,Authorization',
+// };
+
+// app.use(cors(corsOptions));
+
+const allowedOrigins = [
+    process.env.FRONTEND_URL,         // Deployed frontend URL
+    process.env.FRONTEND_LOCAL_URL    // Local frontend URL
+];
+
 const corsOptions = {
-    origin: process.env.DOMAIN_URI, 
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: 'POST',
     allowedHeaders: 'Content-Type,Authorization',
 };
@@ -20,7 +39,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-// MongoDB connection
+
+// app.use(cors());
+
+
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -28,7 +50,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("Connected to MongoDB"))
 .catch((err) => console.error("MongoDB connection error", err));
 
-// Routes
+
 app.use('/api/tasks', require('./routes/TaskRoutes'));
 
 // Start the server
