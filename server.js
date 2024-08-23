@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(express.json());                           
 
 const corsOptions = {
     origin: process.env.DOMAIN_URI, 
