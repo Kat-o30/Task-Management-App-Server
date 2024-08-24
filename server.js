@@ -11,17 +11,9 @@ const app = express();
 
 app.use(express.json());                           
 
-// const corsOptions = {
-//     origin: process.env.FRONTEND_URL, 
-//     methods: 'POST',
-//     allowedHeaders: 'Content-Type,Authorization',
-// };
-
-// app.use(cors(corsOptions));
-
 const allowedOrigins = [
-    process.env.FRONTEND_URL,         // Deployed frontend URL
-    process.env.FRONTEND_LOCAL_URL    // Local frontend URL
+    process.env.FRONTEND_URL,         
+    process.env.FRONTEND_LOCAL_URL    
 ];
 
 const corsOptions = {
@@ -39,10 +31,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-
-// app.use(cors());
-
-
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -53,7 +41,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use('/api/tasks', require('./routes/TaskRoutes'));
 
-// Start the server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
