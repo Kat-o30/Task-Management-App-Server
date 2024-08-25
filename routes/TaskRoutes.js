@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
         const {title, description, dueDate, completed} = req.body;
-
+        
         if( !title || !description || !dueDate ) {
             return res.status(400).json({ message: "Title, description, and due date are required" })
         }
