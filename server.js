@@ -16,19 +16,16 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,POST,PUT,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true,  // If you need to allow cookies or other credentials
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  };
+  origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
+  methods: 'POST',
+  allowedHeaders: 'Content-Type,Authorization',
+};
 
 app.use(cors(corsOptions));
 
